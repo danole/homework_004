@@ -6,14 +6,21 @@ namespace App;
 
 class Student  extends BaseRate implements PriceInterface
 {
-    public $price_km = 4;
-    public $price_time = 1;
+    use GPS;
 
-    public function payment($time,$age,$distance)
+    const PRICE_KM = 4;
+    const PRICE_TIME = 1;
+
+    public function __construct($distance,$time,$age,$gpsMode="off",$driverMode="off")
+    {
+        echo $this->payment($distance,$time, $age,$gpsMode,$driverMode);
+    }
+
+    public function payment($distance,$time,$age,$gpsMode,$driverMode)
     {
         if ($age<=25){
         $koef_age=$this->checkAge($age);
-        $price = ($distance * $this->price_km +$time*$this->price_time)*$koef_age;
+        $price = ($distance *self::PRICE_KM +$time*self::PRICE_TIME)*$koef_age+$this->gpsPayment($time,$gpsMode);
         }else {
             $price = "Вы не можете выбрать тариф студенческий, так как вам больше 25 лет";
         }
