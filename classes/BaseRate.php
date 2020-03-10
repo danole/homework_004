@@ -16,5 +16,4 @@ abstract class BaseRate
         }
         return $koef_age;
     }
-
 }
